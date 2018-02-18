@@ -7,19 +7,20 @@ export class Block {
     this.x = x;
     this.y = y;
     this.colour = COLOURS[Math.floor(Math.random() * COLOURS.length)];
+    this.selected = 0;
   }
+// add block methods here
 }
 
 export class BlockGrid {
   constructor() {
     this.grid = [];
-
     for (let x = 0; x < MAX_X; x++) {
       let col = [];
+
       for (let y = 0; y < MAX_Y; y++) {
         col.push(new Block(x, y));
       }
-
       this.grid.push(col);
     }
 
@@ -51,8 +52,28 @@ export class BlockGrid {
   }
 
   blockClicked(e, block) {
-    console.log(e, block);
+    block.selected = 1; // mark selected block 
+    let myX = block.x;
+    let myY = block.y;
+    let myColor = block.colour;
+    if (this.grid[myX-1][myY].colour == myColor){
+      this.grid[myX-1][myY].selected = 1;
+    }  //mark all the left neighbours of same color
+    
+    if (this.grid[myX+1][myY].colour == myColor){
+      this.grid[myX+1][myY].selected = 1;
+    }  //mark all the right neighbours of same color
+    
+    if (this.grid[myX][myY-1].colour == myColor){
+      this.grid[myX][myY-1].selected = 1;
+    }  //mark all the bottom neighbours of same color
+    
+    if (this.grid[myX][myY+1].colour == myColor){
+      this.grid[myX][myY+1].selected = 1;
+    }  //mark all the top neighbours of same color
+    console.log(e, block,this.grid);
   }
+
 }
 
 window.addEventListener('DOMContentLoaded', () => new BlockGrid().render());
