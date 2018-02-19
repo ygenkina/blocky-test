@@ -9,7 +9,6 @@ export class Block {
     this.colour = COLOURS[Math.floor(Math.random() * COLOURS.length)];
     this.selected = 0;
   }
-// add block methods here
 }
 
 export class BlockGrid {
@@ -53,9 +52,17 @@ export class BlockGrid {
 
   blockClicked(e, block) {
     block.selected = 1; // mark selected block
-    let grid = this.grid; 
+    let grid = this.grid;
+    
+    function changeColor(block){
+      let x = block.x;
+      let y = block.y;
+      let id = 'block_'+x+'x'+y;
+      var toBeReplaced = document.getElementById(id);
+      toBeReplaced.style.background ='grey';}
+    
     markLeftNeigh(grid,block);
-     markRightNeigh(this.grid,block);
+    markRightNeigh(this.grid,block);
     markBottomNeigh(this.grid,block);
     markTopNeigh(this.grid,block);
     
@@ -113,7 +120,7 @@ export class BlockGrid {
        else {
        } 
     } 
-    console.log(e, block,this.grid);
+    console.log(e, block);  //add , this.grid for testing
   }
 }
 
