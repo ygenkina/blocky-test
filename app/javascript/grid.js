@@ -52,11 +52,13 @@ export class BlockGrid {
   }
 
   blockClicked(e, block) {
-    block.selected = 1; // mark selected block 
-    markRightNeigh(this.grid,block);
-    markLeftNeigh(this.grid,block);
-    markTopNeigh(this.grid,block);
+    block.selected = 1; // mark selected block
+    let grid = this.grid; 
+    markLeftNeigh(grid,block);
+     markRightNeigh(this.grid,block);
     markBottomNeigh(this.grid,block);
+    markTopNeigh(this.grid,block);
+    
     function markLeftNeigh(grid, block){ //mark the left neighbours of same color recursively
       let myX = block.x; 
       let myY = block.y;
@@ -65,8 +67,11 @@ export class BlockGrid {
           grid[myX-1][myY].selected = 1;
           block = grid[myX-1][myY];
           markLeftNeigh(grid, block);
-          } 
+          markTopNeigh(grid,block);
+          markBottomNeigh(grid,block);
+      } else {
       } 
+    } 
     function markRightNeigh(grid, block){ //mark the right neighbours of same color recursively
       let myX = block.x; 
       let myY = block.y;
@@ -75,8 +80,12 @@ export class BlockGrid {
           grid[myX+1][myY].selected = 1;
           block = grid[myX+1][myY];
           markRightNeigh(grid, block);
-          } 
+          markTopNeigh(grid,block);
+          markBottomNeigh(grid,block);
+
+      } else {
       } 
+    } 
     function markTopNeigh(grid, block){ //mark the top neighbours of same color recursively
       let myX = block.x; 
       let myY = block.y;
@@ -85,8 +94,11 @@ export class BlockGrid {
           grid[myX][myY+1].selected = 1;
           block = grid[myX][myY+1];
           markTopNeigh(grid, block);
-          } 
+          markLeftNeigh(grid,block);
+          markRightNeigh(grid,block);
+      } else {
       } 
+    } 
     function markBottomNeigh(grid, block){ //mark the bottom neighbours of same color recursively
       let myX = block.x; 
       let myY = block.y;
@@ -95,8 +107,12 @@ export class BlockGrid {
           grid[myX][myY-1].selected = 1;
           block = grid[myX][myY-1];
           markBottomNeigh(grid, block);
-          } 
-      } 
+          markRightNeigh(grid,block);
+          markLeftNeigh(grid,block);
+       } 
+       else {
+       } 
+    } 
     console.log(e, block,this.grid);
   }
 }
