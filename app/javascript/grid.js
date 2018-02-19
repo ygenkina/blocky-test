@@ -53,27 +53,52 @@ export class BlockGrid {
 
   blockClicked(e, block) {
     block.selected = 1; // mark selected block 
-    let myX = block.x;
-    let myY = block.y;
-    let myColor = block.colour;
-    if (this.grid[myX-1][myY].colour == myColor){
-      this.grid[myX-1][myY].selected = 1;
-    }  //mark all the left neighbours of same color
-    
-    if (this.grid[myX+1][myY].colour == myColor){
-      this.grid[myX+1][myY].selected = 1;
-    }  //mark all the right neighbours of same color
-    
-    if (this.grid[myX][myY-1].colour == myColor){
-      this.grid[myX][myY-1].selected = 1;
-    }  //mark all the bottom neighbours of same color
-    
-    if (this.grid[myX][myY+1].colour == myColor){
-      this.grid[myX][myY+1].selected = 1;
-    }  //mark all the top neighbours of same color
+    markRightNeigh(this.grid,block);
+    markLeftNeigh(this.grid,block);
+    markTopNeigh(this.grid,block);
+    markBottomNeigh(this.grid,block);
+    function markLeftNeigh(grid, block){ //mark the left neighbours of same color recursively
+      let myX = block.x; 
+      let myY = block.y;
+      let myColor = block.colour;
+      if (myX > 0 && grid[myX-1][myY].colour == myColor){ // only check for left neighbor if the block isn't the left most block
+          grid[myX-1][myY].selected = 1;
+          block = grid[myX-1][myY];
+          markLeftNeigh(grid, block);
+          } 
+      } 
+    function markRightNeigh(grid, block){ //mark the right neighbours of same color recursively
+      let myX = block.x; 
+      let myY = block.y;
+      let myColor = block.colour;
+      if (myX < 9 && grid[myX+1][myY].colour == myColor){ // only check for right neighbor if the block isn't the right most block
+          grid[myX+1][myY].selected = 1;
+          block = grid[myX+1][myY];
+          markRightNeigh(grid, block);
+          } 
+      } 
+    function markTopNeigh(grid, block){ //mark the top neighbours of same color recursively
+      let myX = block.x; 
+      let myY = block.y;
+      let myColor = block.colour;
+      if (myY < 9 && grid[myX][myY+1].colour == myColor){ // only check for top neighbor if the block isn't at the very top
+          grid[myX][myY+1].selected = 1;
+          block = grid[myX][myY+1];
+          markTopNeigh(grid, block);
+          } 
+      } 
+    function markBottomNeigh(grid, block){ //mark the bottom neighbours of same color recursively
+      let myX = block.x; 
+      let myY = block.y;
+      let myColor = block.colour;
+      if (myY > 0 && grid[myX][myY-1].colour == myColor){ // only check for botto, neighbor if the block isn't at the very bottom
+          grid[myX][myY-1].selected = 1;
+          block = grid[myX][myY-1];
+          markBottomNeigh(grid, block);
+          } 
+      } 
     console.log(e, block,this.grid);
   }
-
 }
 
 window.addEventListener('DOMContentLoaded', () => new BlockGrid().render());
