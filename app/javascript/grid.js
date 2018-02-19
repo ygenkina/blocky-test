@@ -53,74 +53,84 @@ export class BlockGrid {
   blockClicked(e, block) {
     block.selected = 1; // mark selected block
     let grid = this.grid;
-    
-    function changeColor(block){
+    // if (block.selected == 1) {
+    //   let x = block.x;
+    //   let y = block.y;
+    //   let newCol = grid[x][y+1].colour;
+    //   changeColor(block,newCol);
+    //   block.selected = 0;
+    //   grid[x][y+1].selected = 1;
+
+    // }
+    function changeColor(block, color){
       let x = block.x;
       let y = block.y;
       let id = 'block_'+x+'x'+y;
       var toBeReplaced = document.getElementById(id);
-      toBeReplaced.style.background ='grey';}
+      toBeReplaced.style.background = color;}
     
     markLeftNeigh(grid,block);
     markRightNeigh(this.grid,block);
     markBottomNeigh(this.grid,block);
     markTopNeigh(this.grid,block);
-    
+
     function markLeftNeigh(grid, block){ //mark the left neighbours of same color recursively
-      let myX = block.x; 
-      let myY = block.y;
-      let myColor = block.colour;
-      if (myX > 0 && grid[myX-1][myY].colour == myColor){ // only check for left neighbor if the block isn't the left most block
+      var myX = block.x; 
+      var myY = block.y;
+      var myColor = block.colour;    
+      while (myX > 0 && grid[myX-1][myY].colour == myColor){ // only check for left neighbor if the block isn't the left most block
           grid[myX-1][myY].selected = 1;
           block = grid[myX-1][myY];
-          markLeftNeigh(grid, block);
+          var myX = block.x; 
+          var myY = block.y;
+          var myColor = block.colour;
           markTopNeigh(grid,block);
           markBottomNeigh(grid,block);
-      } else {
-      } 
+      }  
     } 
     function markRightNeigh(grid, block){ //mark the right neighbours of same color recursively
-      let myX = block.x; 
-      let myY = block.y;
-      let myColor = block.colour;
-      if (myX < 9 && grid[myX+1][myY].colour == myColor){ // only check for right neighbor if the block isn't the right most block
+      var myX = block.x; 
+      var myY = block.y;
+      var myColor = block.colour;
+      while (myX < 9 && grid[myX+1][myY].colour == myColor){ // only check for right neighbor if the block isn't the right most block
           grid[myX+1][myY].selected = 1;
           block = grid[myX+1][myY];
-          markRightNeigh(grid, block);
+          var myX = block.x; 
+          var myY = block.y;
+          var myColor = block.colour;
           markTopNeigh(grid,block);
           markBottomNeigh(grid,block);
-
-      } else {
       } 
     } 
     function markTopNeigh(grid, block){ //mark the top neighbours of same color recursively
-      let myX = block.x; 
-      let myY = block.y;
-      let myColor = block.colour;
-      if (myY < 9 && grid[myX][myY+1].colour == myColor){ // only check for top neighbor if the block isn't at the very top
+      var myX = block.x; 
+      var myY = block.y;
+      var myColor = block.colour;
+      while (myY < 9 && grid[myX][myY+1].colour == myColor){ // only check for top neighbor if the block isn't at the very top
           grid[myX][myY+1].selected = 1;
           block = grid[myX][myY+1];
-          markTopNeigh(grid, block);
+          var myX = block.x; 
+          var myY = block.y;
+          var myColor = block.colour;
           markLeftNeigh(grid,block);
           markRightNeigh(grid,block);
-      } else {
       } 
     } 
     function markBottomNeigh(grid, block){ //mark the bottom neighbours of same color recursively
-      let myX = block.x; 
-      let myY = block.y;
-      let myColor = block.colour;
-      if (myY > 0 && grid[myX][myY-1].colour == myColor){ // only check for botto, neighbor if the block isn't at the very bottom
+      var myX = block.x; 
+      var myY = block.y;
+      var myColor = block.colour;
+      while (myY > 0 && grid[myX][myY-1].colour == myColor){ // only check for botto, neighbor if the block isn't at the very bottom
           grid[myX][myY-1].selected = 1;
           block = grid[myX][myY-1];
-          markBottomNeigh(grid, block);
+          var myX = block.x; 
+          var myY = block.y;
+          var myColor = block.colour;
           markRightNeigh(grid,block);
           markLeftNeigh(grid,block);
        } 
-       else {
-       } 
     } 
-    console.log(e, block);  //add , this.grid for testing
+    console.log(e, block,grid);  //add , this.grid for testing
   }
 }
 
