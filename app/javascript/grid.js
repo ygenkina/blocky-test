@@ -53,15 +53,35 @@ export class BlockGrid {
   blockClicked(e, block) {
     block.selected = 1; // mark selected block
     let grid = this.grid;
-    // if (block.selected == 1) {
-    //   let x = block.x;
-    //   let y = block.y;
-    //   let newCol = grid[x][y+1].colour;
-    //   changeColor(block,newCol);
-    //   block.selected = 0;
-    //   grid[x][y+1].selected = 1;
+    markAllNeigh(grid,block);
+    for (let x = 0; x < MAX_X; x++) {
+       for (let y = 0; y < MAX_Y; y++) {
+         if (grid[x][y].selected == 1){
+            changeColor(grid[x][y],'grey');
+            grid[x][y].colour = 'grey';
+    //       //colorSwap(grid[x][y+1],grid[x][y]);
+    //       //tagSwap(grid[x][y+1],grid[x][y]);
+    //       //console.log(grid[x][y]);
+        }
+       }
+     }
 
-    // }
+    function tagSwap(top,bottom){
+      let topTag = top.selected;
+      console.log(topTag);
+      let bottomTag = bottom.selected;
+      console.log(bottomTag);
+      top.selected = bottomTag;
+      bottom.selected = topTag;
+    }
+
+    function colorSwap(blockTop,blockBottom){
+      var topCol = blockTop.colour;
+      var bottomCol = blockBottom.colour;
+      changeColor(blockBottom,topCol);
+      changeColor(blockTop,bottomCol);
+    }
+    
     function changeColor(block, color){
       let x = block.x;
       let y = block.y;
@@ -69,10 +89,12 @@ export class BlockGrid {
       var toBeReplaced = document.getElementById(id);
       toBeReplaced.style.background = color;}
     
-    markLeftNeigh(grid,block);
-    markRightNeigh(this.grid,block);
-    markBottomNeigh(this.grid,block);
-    markTopNeigh(this.grid,block);
+    function markAllNeigh(grid, block){ //mark the left neighbours of same color recursively
+      markLeftNeigh(grid,block);
+      markRightNeigh(grid,block);
+      markBottomNeigh(grid,block);
+      markTopNeigh(grid,block);
+    }
 
     function markLeftNeigh(grid, block){ //mark the left neighbours of same color recursively
       var myX = block.x; 
