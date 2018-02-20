@@ -56,15 +56,13 @@ export class BlockGrid {
     markAllNeigh(grid,block);
     for (let x = 0; x < MAX_X; x++) {
        for (let y = 0; y < MAX_Y; y++) {
-         if (grid[x][y].selected == 1){
+          if (grid[x][y].selected == 1){
             changeColor(grid[x][y],'grey');
             grid[x][y].colour = 'grey';
-    //       //colorSwap(grid[x][y+1],grid[x][y]);
-    //       //tagSwap(grid[x][y+1],grid[x][y]);
-    //       //console.log(grid[x][y]);
+          }
+
         }
        }
-     }
 
     function tagSwap(top,bottom){
       let topTag = top.selected;
@@ -100,7 +98,7 @@ export class BlockGrid {
       var myX = block.x; 
       var myY = block.y;
       var myColor = block.colour;    
-      while (myX > 0 && grid[myX-1][myY].colour == myColor){ // only check for left neighbor if the block isn't the left most block
+      while (myX > 0 && grid[myX-1][myY].colour == myColor && grid[myX-1][myY].selected != 1 ){ // only check for left neighbor if the block isn't the left most block
           grid[myX-1][myY].selected = 1;
           block = grid[myX-1][myY];
           var myX = block.x; 
@@ -114,7 +112,7 @@ export class BlockGrid {
       var myX = block.x; 
       var myY = block.y;
       var myColor = block.colour;
-      while (myX < 9 && grid[myX+1][myY].colour == myColor){ // only check for right neighbor if the block isn't the right most block
+      while (myX < MAX_X-1 && grid[myX+1][myY].colour == myColor && grid[myX+1][myY].selected != 1){ // only check for right neighbor if the block isn't the right most block
           grid[myX+1][myY].selected = 1;
           block = grid[myX+1][myY];
           var myX = block.x; 
@@ -128,7 +126,7 @@ export class BlockGrid {
       var myX = block.x; 
       var myY = block.y;
       var myColor = block.colour;
-      while (myY < 9 && grid[myX][myY+1].colour == myColor){ // only check for top neighbor if the block isn't at the very top
+      while (myY < MAX_Y-1 && grid[myX][myY+1].colour == myColor && grid[myX][myY+1].selected != 1){ // only check for top neighbor if the block isn't at the very top
           grid[myX][myY+1].selected = 1;
           block = grid[myX][myY+1];
           var myX = block.x; 
@@ -142,7 +140,7 @@ export class BlockGrid {
       var myX = block.x; 
       var myY = block.y;
       var myColor = block.colour;
-      while (myY > 0 && grid[myX][myY-1].colour == myColor){ // only check for botto, neighbor if the block isn't at the very bottom
+      while (myY > 0 && grid[myX][myY-1].colour == myColor && grid[myX][myY-1].selected != 1){ // only check for botto, neighbor if the block isn't at the very bottom
           grid[myX][myY-1].selected = 1;
           block = grid[myX][myY-1];
           var myX = block.x; 
