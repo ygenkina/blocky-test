@@ -1,6 +1,6 @@
 export const COLOURS = ['red', 'green', 'blue', 'yellow'];
-const MAX_X = 10;
-const MAX_Y = 10;
+const MAX_X = 5;
+const MAX_Y = 5;
 
 export class Block {
   constructor(x, y) {
@@ -51,33 +51,42 @@ export class BlockGrid {
   }
 
   blockClicked(e, block) {
+    let taggedMFs = new Uint8Array(MAX_X); //keep track of #selected blocks by column
     block.selected = 1; // mark selected block
+    let myX = block.x;
+    taggedMFs[myX] += 1;
     let grid = this.grid;
     markAllNeigh(grid,block);
+    //console.log(taggedMFs);
     for (let x = 0; x < MAX_X; x++) {
        for (let y = 0; y < MAX_Y; y++) {
           if (grid[x][y].selected == 1){
             changeColor(grid[x][y],'grey');
             grid[x][y].colour = 'grey';
           }
-
         }
        }
+     for (let y = 1; y < MAX_Y; y++) {
+        for (let x = 0; x < MAX_X; x++) {
+             swapWithGreyBelow(grid[x][y], grid);
+         }
+       }
 
-    function tagSwap(top,bottom){
-      let topTag = top.selected;
-      console.log(topTag);
-      let bottomTag = bottom.selected;
-      console.log(bottomTag);
-      top.selected = bottomTag;
-      bottom.selected = topTag;
-    }
-
-    function colorSwap(blockTop,blockBottom){
-      var topCol = blockTop.colour;
-      var bottomCol = blockBottom.colour;
-      changeColor(blockBottom,topCol);
-      changeColor(blockTop,bottomCol);
+    function swapWithGreyBelow(block, grid){
+      var x = block.x;
+      var y = block.y;
+      var myCol = block.colour;
+      console.log(block);
+      while (myCol != 'grey' && grid[x][y-1].colour == 'grey'){
+        changeColor(grid[x][y-1],myCol);
+        grid[x][y-1].colour = myCol;
+        console.log(block);
+        console.log(grid[x][y-1]);
+        changeColor(block,'grey');
+        block.colour = 'grey';
+        block = grid[x][y-1];
+        myCol = block.colour;  
+      }  
     }
     
     function changeColor(block, color){
@@ -100,6 +109,7 @@ export class BlockGrid {
       var myColor = block.colour;    
       while (myX > 0 && grid[myX-1][myY].colour == myColor && grid[myX-1][myY].selected != 1 ){ // only check for left neighbor if the block isn't the left most block
           grid[myX-1][myY].selected = 1;
+          taggedMFs[myX-1] += 1;
           block = grid[myX-1][myY];
           var myX = block.x; 
           var myY = block.y;
@@ -114,6 +124,7 @@ export class BlockGrid {
       var myColor = block.colour;
       while (myX < MAX_X-1 && grid[myX+1][myY].colour == myColor && grid[myX+1][myY].selected != 1){ // only check for right neighbor if the block isn't the right most block
           grid[myX+1][myY].selected = 1;
+          taggedMFs[myX+1] += 1;
           block = grid[myX+1][myY];
           var myX = block.x; 
           var myY = block.y;
@@ -128,6 +139,7 @@ export class BlockGrid {
       var myColor = block.colour;
       while (myY < MAX_Y-1 && grid[myX][myY+1].colour == myColor && grid[myX][myY+1].selected != 1){ // only check for top neighbor if the block isn't at the very top
           grid[myX][myY+1].selected = 1;
+          taggedMFs[myX] += 1;
           block = grid[myX][myY+1];
           var myX = block.x; 
           var myY = block.y;
@@ -142,6 +154,7 @@ export class BlockGrid {
       var myColor = block.colour;
       while (myY > 0 && grid[myX][myY-1].colour == myColor && grid[myX][myY-1].selected != 1){ // only check for botto, neighbor if the block isn't at the very bottom
           grid[myX][myY-1].selected = 1;
+          taggedMFs[myX] += 1;
           block = grid[myX][myY-1];
           var myX = block.x; 
           var myY = block.y;
@@ -150,7 +163,7 @@ export class BlockGrid {
           markLeftNeigh(grid,block);
        } 
     } 
-    console.log(e, block,grid);  //add , this.grid for testing
+    console.log(e,block);  //add , this.grid for testing
   }
 }
 
