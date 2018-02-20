@@ -66,6 +66,7 @@ export class BlockGrid {
           if (grid[x][y].selected == 1){
             changeColor(grid[x][y],'grey');
             grid[x][y].colour = 'grey';
+            grid[x][y].selected = 0;
           }
         }
        }
