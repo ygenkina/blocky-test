@@ -1,6 +1,6 @@
 export const COLOURS = ['red', 'green', 'blue', 'yellow'];
-const MAX_X = 5;
-const MAX_Y = 5;
+const MAX_X = 10;
+const MAX_Y = 10;
 
 export class Block {
   constructor(x, y) {
@@ -77,16 +77,15 @@ export class BlockGrid {
       var y = block.y;
       var myCol = block.colour;
       console.log(block);
-      while (myCol != 'grey' && grid[x][y-1].colour == 'grey'){
+      if (myCol != 'grey' && grid[x][y-1].colour == 'grey'){
         changeColor(grid[x][y-1],myCol);
         grid[x][y-1].colour = myCol;
-        console.log(block);
-        console.log(grid[x][y-1]);
         changeColor(block,'grey');
         block.colour = 'grey';
-        block = grid[x][y-1];
-        myCol = block.colour;  
-      }  
+        swapWithGreyBelow(grid[x][y-1],grid); 
+      } else{
+
+      }
     }
     
     function changeColor(block, color){
