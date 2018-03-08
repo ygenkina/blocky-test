@@ -1,5 +1,7 @@
 # Blocky Puzzle
 
+## This test is complete. Waiting for feedback from the team.
+
 ## To get started
 
 ```sh
