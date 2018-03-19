@@ -1,6 +1,6 @@
 # Blocky Puzzle
 
-## This test is complete. Waiting for feedback from the team.
+## This test is incomplete. Will be complete in a week. when a free weekend appears.
 
 ## To get started
 
